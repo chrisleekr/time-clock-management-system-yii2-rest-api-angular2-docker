@@ -43,6 +43,27 @@ class m170103_234330_create_user_table extends Migration
             ['username', 'auth_key', 'access_token', 'password_hash', 'status']
         );
 
+        $this->insert('user', [
+            'id'                    => 1,
+            'username'              => 'admin',
+            'auth_key'              => 'Qyn3L1XZzq9QZFT20ZCRsLDzQ3JtYhhK',
+            'access_token'          => 'FcyoiSJ0Y8SA71uD3LoISqTJKISmQPAU',
+            'access_token_expired_at'  => '2017-01-23 20:41:57',
+            'password_hash'         => '$2y$13$YU8prbjG5.j46u67LeQ6De4QUXNGYuNAYkJK.Tqc6r./jGae8jye6',
+            'password_reset_token' => null,
+            'email'                 => 'admin@admin.com',
+
+            'unconfirmed_email'     =>  'admin@admin.com',
+            'confirmed_at'          => '2017-01-05 11:37:03',
+            'registration_ip'       => '127.0.0.1',
+            'last_login_at'         => '2017-01-18 20:41:57',
+            'last_login_ip'         => '127.0.0.1',
+            'blocked_at'            => null,
+
+            'status'                => 10,
+            'role'                  => null
+        ]);
+
     }
 
     /**

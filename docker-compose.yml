@@ -1,0 +1,38 @@
+version: '2'
+services:
+    frontend:
+        build: ./timeclock-frontend/
+        #volumes:
+        #    - ./timeclock-frontend/:/usr/src/app
+        links:
+            - backend
+        ports:
+            - "4200:4200"
+        expose:
+            - "4200"
+    backend:
+        build: ./timeclock-backend/
+        volumes:
+            - ./timeclock-backend/:/var/www/html/
+        links:
+            - db
+        environment:
+            ENABLE_ENV_FILE: 1
+            ENABLE_LOCALCONF: 1
+            API_TOKEN: "<YOUR GITHUB API TOKEN>"            
+        ports:
+            - "4201:80"
+        expose:
+            - "4201"
+    db:
+        image: mysql:5.6
+        ports:
+            - "3306:3306"
+        expose:
+            - "3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: secret-root
+            MYSQL_DATABASE: web
+            MYSQL_USER: web
+            MYSQL_PASSWORD: web
+

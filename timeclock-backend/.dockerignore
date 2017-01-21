@@ -1,0 +1,7 @@
+.git/*
+.env
+config/local.php
+config/console-local.php
+runtime
+web/assets
+vendor

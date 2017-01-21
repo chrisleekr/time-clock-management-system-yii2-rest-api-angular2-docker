@@ -1,46 +1,58 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
-
 $config = [
     'id' => 'attendance-backend',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'basePath' => '/var/www/html',
+    'vendorPath' => '/var/www/vendor',
     'components' => [
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'DvaDS39a171gkXFwR42F5Rn3N3XTyQzN',
-            'parsers' => [
-                'application/json' => 'yii\web\JsonParser',
-            ]
-        ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\ApcCache',
+            'useApcu' => true,
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => false,
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => \DockerEnv::dbDsn(),
+            'username' => \DockerEnv::dbUser(),
+            'password' => \DockerEnv::dbPassword(),
+            'charset' => 'utf8',
+            'tablePrefix' => '',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
+        'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => \DockerEnv::get('SMTP_HOST'),
+                'username' => \DockerEnv::get('SMTP_USER'),
+                'password' => \DockerEnv::get('SMTP_PASSWORD'),
+            ],
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'traceLevel' => \DockerEnv::get('YII_TRACELEVEL', 0),
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => 'codemix\streamlog\Target',
+                    'url' => 'php://stdout',
+                    'levels' => ['info','trace'],
+                    'logVars' => [],
+                ],
+                [
+                    'class' => 'codemix\streamlog\Target',
+                    'url' => 'php://stderr',
                     'levels' => ['error', 'warning'],
+                    'logVars' => [],
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'request' => [
+            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'cookieValidationKey' => \DockerEnv::get('COOKIE_VALIDATION_KEY', null, !YII_ENV_TEST),
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -52,6 +64,7 @@ $config = [
                     'controller'    => 'v1/user',
                     'pluralize'     => false,
                     'tokens' => [
+                        '{id}'             => '<id:\d+>',
                     ],
                     'extraPatterns' => [
                         'POST login'        =>  'login',
@@ -124,6 +137,10 @@ $config = [
                 ],
             ],
         ],
+        'user' => [
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => false,
+        ],
         'response' => [
             'class' => 'yii\web\Response',
             'on beforeSend' => function ($event) {
@@ -163,7 +180,7 @@ $config = [
             'class' => 'app\modules\v1\Module',
         ],
     ],
-    'params' => $params,
+    'params' => require('/var/www/html/config/params.php'),
 ];
 
 if (YII_ENV_DEV) {

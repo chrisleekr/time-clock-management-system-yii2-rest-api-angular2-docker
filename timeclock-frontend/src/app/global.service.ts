@@ -15,7 +15,7 @@ export class GlobalService{
         if(environment.production == true) {
             this.apiHost = 'http://localhost:4201/v1';
         } else {
-            this.apiHost = 'http://api.timeclock.local/v1';
+            this.apiHost = 'http://localhost:4201/v1';
         }
     }
 

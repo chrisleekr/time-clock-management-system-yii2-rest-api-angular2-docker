@@ -1,0 +1,8 @@
+<div class="clock-wrapper">
+    <div class="clock-time-wrapper">
+        {{_clockData | amDateFormat: _timeFormat }}
+    </div>
+    <div class="clock-date-wrapper" *ngIf="_showDate">
+        {{_clockData | amDateFormat: _dateFormat}}
+    </div>
+</div>

@@ -1,0 +1,16 @@
+.clock-wrapper{
+    margin: 3px 10px;
+
+}
+.clock-time-wrapper{
+    display:block;
+    line-height:normal;
+    font-size: 1.5rem;
+    font-weight:bold;
+    color: #1b6d85;
+    font-family:sans-serif;
+}
+.clock-date-wrapper{
+    display:block;
+    line-height:normal;
+}

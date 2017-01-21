@@ -1,0 +1,386 @@
+// Here you can add other styles
+
+@import '~sweetalert2/dist/sweetalert2.min.css';
+
+
+.main {
+  min-height:600px;
+}
+.text-right {
+  text-align: right;
+}
+
+.card-header-staff {
+
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.card.card-inverse .card-header-staff {
+  color:#000000;
+}
+
+.card-header-staff .card-header-staff-name{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+
+  display: inline-block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 0 10px;
+  height: 40px;
+
+  margin-right: 5px;
+  line-height: 40px;
+  vertical-align: top;
+}
+
+.card-header-staff .card-header-team-name{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+
+  font-size: 1rem;
+  padding: 0 10px;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  vertical-align: top;
+}
+
+
+.card-id {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.card-id-img {
+  width: 120px;
+}
+
+.card-buttons-functions-bottom {
+  margin-top: 10px;
+}
+
+.colour-box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.card-action-elm {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.tag-box{
+  height: 27px;
+  line-height:21px;
+  width: 80px;
+}
+
+.help-block-error{
+  font-size:0.8rem;
+  color:#ff0084;
+}
+.table th, .table td{
+  vertical-align: middle;
+}
+.time-ago{
+  font-style:italic;
+  display:block;
+}
+
+.small-help-text{
+  display:block;
+  font-style:italic;
+}
+
+
+.card-clock-wrapper{
+}
+
+.card-buttons-functions-bottom{
+  height: 27px;
+}
+
+.fake-stopwatch-container{
+  height: 2rem;
+}
+
+.bg-white{
+  background-color:#ffffff;
+}
+
+.m-5px{
+  margin: 5px !important;
+}
+
+.m-v-5px{
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+
+.p-5px{
+  padding: 5px !important;
+}
+
+.input-group-addon, .input-group-btn{
+  min-width: 65px;
+}
+
+.card-blockquote{
+  height: 21px;
+}
+
+.report-timesheet-total-durations{
+  font-size: 1.5rem;
+  color: #333fa2;
+  margin-bottom: 10px;
+}
+
+.report-timesheet-staff-wrapper{
+  border: 3px solid #607d8b;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+}
+
+.report-timesheet-staff-name-wrapper{
+  margin-bottom: 10px;
+  position:relative;
+  text-transform: uppercase;
+}
+
+.report-timesheet-staff-name{
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 0 10px;
+  display: inline-block;
+  margin-right: 5px;
+  height: 40px;
+  line-height: 40px;
+  float: left;
+}
+
+.report-timesheet-staff-team-name{
+  font-size: 1rem;
+  padding: 0 10px;
+  display: inline-block;
+  margin-right: 10px;
+  height: 40px;
+  float: left;
+  line-height: 40px;
+}
+
+/* iPad in portrait & landscape */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  {
+  .report-timesheet-staff-name {
+    font-size: 0.85rem;
+  }
+  .report-timesheet-staff-team-name{
+    font-size: 0.75rem;
+  }
+  .card-header-staff .card-header-staff-name{
+    font-size: 0.85rem;
+    padding: 5px;
+
+    height: 30px;
+    line-height: 20px;
+
+  }
+  .card-header-staff .card-header-team-name{
+    font-size: 0.75rem;
+    padding: 5px;
+    height: 30px;
+    line-height: 20px;
+  }
+
+  .clock-wrapper .btn{
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .fake-stopwatch-container{
+    height: 1.4rem;
+  }
+
+  .card-last-clocked-in-wrapper footer{
+    font-size:0.65rem;
+  }
+  .card-clock-wrapper{
+    font-size: 0.7rem;
+  }
+
+
+  .card-buttons-functions-bottom {
+    margin-top: 5px;
+  }
+
+  .card-buttons-functions-bottom button {
+    font-size: 0.7rem;
+  }
+
+}
+/* iPad in landscape */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+
+  .card-header-staff .card-header-staff-name{
+
+  }
+}
+
+/* iPad in portrait */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+
+  .card-header-staff .card-header-staff-name{
+    display: block;
+    width:100%;
+  }
+  .report-timesheet-staff-name {
+
+  }
+  .report-timesheet-staff-team-name{
+  }
+}
+
+
+.report-timesheet-staff-durations-label{
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0 10px;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.text-inverse{
+  color: #ffffff;
+}
+
+.control-label{
+  font-weight: bold;
+}
+
+.form-control-static {
+  min-height: 34px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin-bottom: 0;
+}
+.form-control-static.input-lg,
+.form-control-static.input-sm {
+  padding-right: 0;
+  padding-left: 0;
+}
+.input-sm {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+select.input-sm {
+  height: 30px;
+  line-height: 30px;
+}
+textarea.input-sm,
+select[multiple].input-sm {
+  height: auto;
+}
+.form-group-sm .form-control {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.form-group-sm select.form-control {
+  height: 30px;
+  line-height: 30px;
+}
+.form-group-sm textarea.form-control,
+.form-group-sm select[multiple].form-control {
+  height: auto;
+}
+.form-group-sm .form-control-static {
+  height: 30px;
+  min-height: 32px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.spinner,
+.spinner:after {
+  border-radius: 50%;
+  width: 27px;
+  height: 27px;
+}
+.spinner {
+  margin: 0;
+  font-size: 10px;
+  position: absolute;
+  margin-left: 5px;
+  display: inline-block;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(100,193,227, 0.2);
+  border-right: 1.1em solid rgba(100,193,227, 0.2);
+  border-bottom: 1.1em solid rgba(100,193,227, 0.2);
+  border-left: 1.1em solid #64c1e3;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+
+.btn-xs,
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}

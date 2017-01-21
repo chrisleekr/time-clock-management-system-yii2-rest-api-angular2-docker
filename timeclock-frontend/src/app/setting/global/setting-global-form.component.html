@@ -1,0 +1,95 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn" *ngIf="!_mode">
+    <span class="spinner"></span>
+
+</div>
+<div class="animated fadeIn" *ngIf="_mode">
+    <div class="row">
+        <div class="col-sm-12">
+            <form [formGroup]="_form" (ngSubmit)="onSubmit()">
+                <div class="card">
+                    <div class="card-header">
+                        <!--<div class="card-header-create" *ngIf="_mode == 'create'">-->
+                            <!--<strong>Create new setting</strong>-->
+                        <!--</div>-->
+                        <div class="update" *ngIf="_mode == 'update'">
+                            <strong>Setting - {{_setting.meta_name}}</strong>
+                            <small>Update setting</small>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="form-group-wrapper">
+                            <div class="form-group row">
+                                <label class="col-sm-12">Setting Name</label>
+                                <div class="col-sm-8">
+                                    {{_setting.meta_name}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-wrapper">
+                            <div class="form-group row">
+                                <label class="col-sm-12">Description</label>
+                                <div class="col-sm-8">
+                                    {{_setting.meta_desc}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" *ngIf="_setting.meta_type == 'select'" [ngClass]="{'has-danger': !_isValid('meta_value')}">
+                                <label class="col-sm-12" for="meta_value_select">Value</label>
+                                <div class="col-sm-8">
+                                    <select id="meta_value_select" class="form-control" [formControl]="_form.controls['meta_value']" [ngClass]="{'form-control-danger': !_isValid('meta_value')}" [(ngModel)]="_setting.meta_value">
+                                        <option *ngFor="let listValue of _setting.meta_attribute.list" [value]="listValue.value" [selected]="">{{listValue.label}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.meta_value.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.meta_value.message}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" *ngIf="_setting.meta_type == 'number'" [ngClass]="{'has-danger': !_isValid('meta_value')}">
+                                <label class="col-sm-12" for="meta_value_number">Value</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="meta_value_number" placeholder="Enter setting value (number)" [formControl]="_form.controls['meta_value']" [ngClass]="{'form-control-danger': !_isValid('meta_value')}" [(ngModel)]="_setting.meta_value" [max]="_setting.meta_attribute.max" [min]="_setting.meta_attribute.min" />
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.meta_value.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.meta_value.message}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" *ngIf="_setting.meta_type == 'string'" [ngClass]="{'has-danger': !_isValid('meta_value')}">
+                                <label class="col-sm-12" for="meta_value_string">Value</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="meta_value_string" placeholder="Enter setting value (string)" [formControl]="_form.controls['meta_value']" [ngClass]="{'form-control-danger': !_isValid('meta_value')}" [(ngModel)]="_setting.meta_value" />
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.meta_value.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.meta_value.message}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-sm btn-primary" [disabled]="!_form.valid || _submitted == true"><i class="fa fa-dot-circle-o"></i> Save</button>
+                                <div *ngIf="_submitted" class="spinner"></div>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <a [routerLink]="['/setting', 'global']" class="btn btn-sm btn-warning"><i class="fa fa-arrow-left"></i> Back to list</a>
+                            </div>
+                            <div *ngIf="_errorMessage" class="col-xs-12 error-block mt-h">
+                                <div class="alert alert-danger">{{_errorMessage}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

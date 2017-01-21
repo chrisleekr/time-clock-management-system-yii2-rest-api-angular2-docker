@@ -1,0 +1,121 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn" *ngIf="!_mode">
+    <span class="spinner"></span>
+
+</div>
+<div class="animated fadeIn" *ngIf="_mode">
+    <div class="row">
+        <div class="col-sm-12">
+            <form [formGroup]="_form" (ngSubmit)="onSubmit()">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-create" *ngIf="_mode == 'create'">
+                            <strong>Create new staff</strong>
+                        </div>
+                        <div class="update" *ngIf="_mode == 'update'">
+                            <strong>Staff - {{_staff.fullname}}</strong>
+                            <small>Update staff</small>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" [ngClass]="{'has-danger': !_isValid('team_id')}">
+                                <label class="col-sm-12" for="team_id">Team</label>
+                                <div class="col-sm-8">
+                                    <select id="team_id" class="form-control" [formControl]="_form.controls['team_id']" [ngClass]="{'form-control-danger': !_isValid('team_id')}" [(ngModel)]="_staff.team_id">
+                                        <option [value]="0" [disabled]="disabled">Select team</option>
+
+                                        <option *ngFor="let team of _teams;let i = index" [value]="team.id" [selected]="_mode == 'create' ? (i === 0 ? 'selected' : '') : (team.id === _defaultTeamId ? 'selected' : '')" [disabled]="team.enabled === 0 ? 'disabled' : ''">{{team.team_name}}{{team.enabled == 0 ? ' - disabled' : ''}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.team_id.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.team_id.message}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" [ngClass]="{'has-danger': !_isValid('firstname')}">
+                                <label class="col-sm-12" for="firstname">First Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="firstname" placeholder="Enter first name" [formControl]="_form.controls['firstname']" [ngClass]="{'form-control-danger': !_isValid('firstname')}" [(ngModel)]="_staff.firstname" />
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.firstname.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.firstname.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" [ngClass]="{'has-danger': !_isValid('lastname')}">
+                                <label class="col-sm-12" for="lastname">Last Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="lastname" placeholder="Enter last name" [formControl]="_form.controls['lastname']" [ngClass]="{'form-control-danger': !_isValid('lastname')}" [(ngModel)]="_staff.lastname" />
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.lastname.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.lastname.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" [ngClass]="{'has-danger': !_isValid('email_address')}">
+                                <label class="col-sm-12" for="lastname">Email Address</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="email_address" placeholder="Enter email address" [formControl]="_form.controls['email_address']" [ngClass]="{'form-control-danger': !_isValid('email_address')}" [(ngModel)]="_staff.email_address" />
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.email_address.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.email_address.message}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" [ngClass]="{'has-danger': !_isValid('primary_colour')}">
+                                <label class="col-sm-12" for="primary_colour">Staff Colour</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="primary_colour" placeholder="Enter team colour" [formControl]="_form.controls['primary_colour']" [ngClass]="{'form-control-danger': !_isValid('primary_colour')}" [(colorPicker)]="_staff.primary_colour" [style.background]="_staff.primary_colour" [cpPosition]="'bottom'" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'" [cpFallbackColor]="'#000000'" [(ngModel)]="_staff.primary_colour"/>
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.primary_colour.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.primary_colour.message}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group-wrapper">
+                            <div class="form-group row" [ngClass]="{'has-danger': !_isValid('enabled')}">
+                                <label class="col-sm-12 form-control-label" for="enabled">Status</label>
+                                <div class="col-sm-3">
+                                    <select id="enabled" name="enabled" class="form-control input-sm" size="1" [formControl]="_form.controls['enabled']" [ngClass]="{'form-control-danger': !_isValid('enabled')}" [(ngModel)]="_staff.enabled">
+                                        <option value="1">Enabled</option>
+                                        <option value="0">Disabled</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12" *ngIf="!_formErrors.enabled.valid">
+                                    <span class="help-block help-block-error">{{_formErrors.enabled.message}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-sm btn-primary" [disabled]="!_form.valid || _submitted == true"><i class="fa fa-dot-circle-o"></i> Save</button>
+                                <div *ngIf="_submitted" class="spinner"></div>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <a [routerLink]="['/setting', 'staff']" class="btn btn-sm btn-warning"><i class="fa fa-arrow-left"></i> Back to list</a>
+                            </div>
+                            <div *ngIf="_errorMessage" class="col-xs-12 error-block mt-h">
+                                <div class="alert alert-danger">{{_errorMessage}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

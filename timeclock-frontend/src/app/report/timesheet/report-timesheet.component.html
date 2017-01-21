@@ -1,0 +1,126 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <form action="" method="post">
+                <div class="card">
+                    <div class="card-header">
+                        Reports - {{_periodRangeValue}}
+                        <div class="card-action-elm">
+                            <my-date-range-picker [options]="myDateRangePickerOptions"
+                                                  [selDateRange]="_periodRangeValue"
+                                                  (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
+
+                        </div>
+                    </div>
+                    <div class="card-block">
+
+                        <div class="animated fadeIn" *ngIf="!_reportTimesheet">
+                            <span class="spinner"></span>
+                        </div>
+
+                        <div class="animated fadeIn" *ngIf="_reportTimesheet">
+                            <div class="report-timesheet-wrapper">
+                                <div class="report-timesheet-total-durations">
+                                    Total Hours: {{_reportTimesheet.total_durations_label}}
+                                </div>
+                                <div class="report-timesheet-staffs-wrapper">
+                                    <div class="report-timesheet-staff-wrapper" *ngFor="let staff of generateArray(_reportTimesheet.staffs)">
+                                        <div class="report-timesheet-staff-name-wrapper">
+                                            <div class="report-timesheet-staff-name" [style.background-color]="staff.primary_colour" [ngClass]="{'text-inverse': staff.lightness < 200}">{{staff.firstname}}, {{staff.lastname}}</div> <div class="report-timesheet-staff-team-name" [style.background-color]="staff.team_primary_colour" [ngClass]="{'text-inverse': staff.team_lightness < 200}">({{staff.team_name}})</div> <div class="report-timesheet-staff-durations-label">{{staff.total_durations_label}}</div>
+                                        </div>
+                                        <div class="report-timesheet-staff-timesheet-table-wrapper">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-condensed">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th class="text-center" width="20%">Start</th>
+                                                        <th class="text-center" width="20%">Finish</th>
+                                                        <th class="text-right" width="20%">Hours</th>
+                                                        <th width="10%"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr *ngFor="let timesheet of generateArray(staff.timesheets)">
+                                                        <td>{{timesheet.date}}</td>
+                                                        <td class="text-center">{{timesheet.start_time}}</td>
+                                                        <td class="text-center">{{timesheet.finish_time}}</td>
+                                                        <td class="text-right">
+                                                            {{timesheet.durations_label}}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-xs btn-info" (click)="onClickEdit(timesheet, staff)"><i class="fa fa-edit"></i></button>
+                                                            <button type="button" class="btn btn-xs btn-danger" (click)="onClickDelete(timesheet, staff)"><i class="fa fa-remove"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br /><br />
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" bsModal #updateModal="bs-modal" [config]="{backdrop: true}"
+     tabindex="-1" role="dialog" aria-labelledby="Update timesheet" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" *ngIf="_updateStaff && _updateTimesheet">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Update timesheet</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="updateModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-12 m-0">Name</label>
+                            <div class="col-sm-12">
+                                <p class="form-control-static">{{_updateStaff.firstname}}, {{_updateStaff.lastname}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-12 m-0">Start Time</label>
+                            <div class="col-sm-12">
+                                <timepicker [(dateTime)]="_updateTimesheetStartTime" (onChangedDateTime)="onChangeDateTime('start_time', $event)"></timepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-12 m-0">Finish Time</label>
+                            <div class="col-sm-12">
+                                <timepicker [(dateTime)]="_updateTimesheetFinishTime" (onChangedDateTime)="onChangeDateTime('finish_time', $event)"></timepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="updateModal.hide()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onClickUpdateTimesheet()">Update timesheet</button>
+            </div>
+        </div>
+    </div>
+</div>

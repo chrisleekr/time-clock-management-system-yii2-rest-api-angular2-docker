@@ -1,0 +1,50 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <form action="" method="post">
+                <div class="card">
+                    <div class="card-header">
+                        Activities - {{_periodRangeValue}}
+                        <div class="card-action-elm">
+                            <my-date-range-picker [options]="myDateRangePickerOptions"
+                                                  [selDateRange]="_periodRangeValue"
+                                                  (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
+
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="animated fadeIn" *ngIf="!_activities">
+                            <span class="spinner"></span>
+                        </div>
+
+                        <div class="animated fadeIn" *ngIf="_activities">
+                            <table class="table table-bordered table-condensed">
+                                <thead>
+                                <tr>
+                                    <th width="20%" class="text-center">Date/Time</th>
+                                    <th>Activity</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let activity of _activities">
+                                    <td class="text-center"><cite title="{{activity.created_at}}">{{activity.created_at | amTimeAgo}}</cite></td>
+                                    <td>{{activity.activity_message}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br /><br />
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

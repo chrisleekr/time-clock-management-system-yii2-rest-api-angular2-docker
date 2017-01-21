@@ -1,0 +1,105 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn" *ngIf="!_staffTimesheets">
+    <span class="spinner"></span>
+
+</div>
+<div class="animated fadeIn" *ngIf="_staffTimesheets">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4" *ngFor="let staffTimesheet of _staffTimesheets; let i = index">
+            <div class="card text-xs-center" >
+                <div class="card-header card-header-staff" >
+                    <div class="card-header-staff-name" [style.background-color]="staffTimesheet.primary_colour" [ngClass]="{'card-inverse': staffTimesheet.lightness < 200}">
+                        {{staffTimesheet.fullname}}
+                    </div>
+                    <div class="card-header-team-name" [style.background-color]="staffTimesheet.team_primary_colour" [ngClass]="{'text-inverse': staffTimesheet.team_lightness < 200}">
+                        {{staffTimesheet.team_name}}
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="card-clock-wrapper">
+                        <div class="card-clock-in" *ngIf="staffTimesheet.is_clocked_in == 1">
+                            <strong>Clocked in {{staffTimesheet.current_timesheet.start_time | amDateFormat:'YYYY-MM-DD HH:mm'}}</strong>
+                        </div>
+                        <div class="card-clock-in" *ngIf="staffTimesheet.is_clocked_in == 0">
+                            <strong>Not clocked in</strong>
+                        </div>
+                    </div>
+
+
+                    <div class="card-buttons card-buttons-functions-middle">
+                        <div class="clock-wrapper clock-in" *ngIf="staffTimesheet.is_clocked_in == 0">
+                            <div class="fake-stopwatch-container"></div>
+                            <button type="button" class="btn btn-success btn-lg btn-block" (click)="onClockToggle('in', i, staffTimesheet)">Clock In</button>
+                        </div>
+                        <div class="clock-wrapper clock-out" *ngIf="staffTimesheet.is_clocked_in == 1">
+                            <stopwatch *ngIf="staffTimesheet.current_timesheet.start_time" [startDateTime]="staffTimesheet.current_timesheet.start_time"></stopwatch>
+                            <button type="button" class="btn btn-danger btn-lg btn-block" (click)="onClockToggle('out', i, staffTimesheet)">Clock Out</button>
+                        </div>
+                    </div>
+                    <blockquote class="card-blockquote card-last-clocked-in-wrapper">
+                        <div *ngIf="staffTimesheet.last_timesheet.finish_time">
+                            <footer>Last clocked in <cite title="{{staffTimesheet.last_timesheet.finish_time}}">{{staffTimesheet.last_timesheet.finish_time | amTimeAgo}}</cite></footer>
+                        </div>
+
+                    </blockquote>
+                    <div class="card-buttons card-buttons-functions-bottom text-right">
+                        <button *ngIf="staffTimesheet.is_clocked_in == 0" type="button" class="btn btn-sm btn-info" (click)="onClickManualClockIn(staffTimesheet)">Manually Clock In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" bsModal #updateModal="bs-modal" [config]="{backdrop: true}"
+     tabindex="-1" role="dialog" aria-labelledby="Manually add new timesheet" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" *ngIf="_updateStaffTimesheet">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Manually add new timesheet</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="updateModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-12 m-0">Name</label>
+                            <div class="col-sm-12">
+                                <p class="form-control-static">{{_updateStaffTimesheet.fullname}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-12 m-0">Start Time</label>
+                            <div class="col-sm-12">
+                                <timepicker [(dateTime)]="_updateTimesheetStartTime" (onChangedDateTime)="onChangeDateTime('start_time', $event)"></timepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-12 m-0">Finish Time</label>
+                            <div class="col-sm-12">
+                                <timepicker [(dateTime)]="_updateTimesheetFinishTime" (onChangedDateTime)="onChangeDateTime('finish_time', $event)"></timepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="updateModal.hide()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onClickAddTimesheet()">Add timesheet</button>
+            </div>
+        </div>
+    </div>
+</div>

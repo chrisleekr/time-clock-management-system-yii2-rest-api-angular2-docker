@@ -1,0 +1,55 @@
+<div class="row" *ngIf="_errorMessage">
+    <div class="col-sm-12">
+        <p class="alert alert-danger">{{_errorMessage}}</p>
+    </div>
+</div>
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-inverse card-info">
+                <div class="card-block">
+                    <a [routerLink]="['/time-clock']" class="btn btn-secondary btn-lg btn-block">Time Clock</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-inverse card-success">
+                <div class="card-block">
+                    <a [routerLink]="['/report']" class="btn btn-secondary btn-lg btn-block">Report</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-inverse card-warning">
+                <div class="card-block">
+                    <a [routerLink]="['/activity']" class="btn btn-secondary btn-lg btn-block">Activities</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> <a [routerLink]="['/activity']">Latest Activities</a>
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                        <tr>
+                            <th width="20%" class="text-center">Date/Time</th>
+                            <th>Activity</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let activity of _activities">
+                            <td class="text-center"><cite title="{{activity.created_at}}">{{activity.created_at | amTimeAgo}}</cite></td>
+                            <td>{{activity.activity_message}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

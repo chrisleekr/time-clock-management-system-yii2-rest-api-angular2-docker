@@ -1,0 +1,21 @@
+.stopwatch-container{
+    font-family:sans-serif;
+    font-size: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    display:block;
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  {
+    .stopwatch-container{
+        font-size: 1.4rem;
+        height: 1.4rem;
+        line-height: 1.4rem;
+    }
+
+
+
+}
+.stopwatch-container .stopwatch-time{
+
+}

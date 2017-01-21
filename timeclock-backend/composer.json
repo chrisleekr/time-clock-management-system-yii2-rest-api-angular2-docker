@@ -1,56 +1,33 @@
 {
-    "name": "attendance-backend",
-    "description": "The API backend for attendance project",
-    "keywords": [],
+    "name": "timeclock-backend",
+    "description": "The API backend for time clock project",
+    "keywords": ["yii2", "rest api", "time clock"],
     "type": "project",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
-    },
+    "license": "MIT",
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "~2.0.5",
+        "yiisoft/yii2": "2.0.10",
         "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0"
+        "yiisoft/yii2-jui": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "vlucas/phpdotenv": "1.0.*",
+        "codemix/yii2-streamlog": "0.0.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
-        "yiisoft/yii2-faker": "~2.0.0",
-
-        "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1",
-        "codeception/specify": "~0.4.3"
+        "yiisoft/yii2-codeception": "~2.0.0",
+        "yiisoft/yii2-faker": "~2.0.0"
     },
     "config": {
-        "process-timeout": 1800
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "yii\\composer\\Installer::postCreateProject"
-        ]
+        "process-timeout": 1800,
+        "vendor-dir": "/var/www/vendor"
     },
     "extra": {
-        "yii\\composer\\Installer::postCreateProject": {
-            "setPermission": [
-                {
-                    "runtime": "0777",
-                    "web/assets": "0777",
-                    "yii": "0755"
-                }
-            ],
-            "generateCookieValidationKey": [
-                "config/web.php"
-            ]
-        },
         "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
+            "npm-asset-library": "/var/www/vendor/npm",
+            "bower-asset-library": "/var/www/vendor/bower"
         }
     }
 }

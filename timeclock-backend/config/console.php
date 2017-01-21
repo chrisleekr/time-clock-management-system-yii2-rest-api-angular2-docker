@@ -1,43 +1,31 @@
 <?php
-
-$params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
-
-$config = [
-    'id' => 'attendance-console',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
-    'controllerNamespace' => 'app\commands',
-    'components' => [
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+    /* @var array() $web the web configuration */
+    $web = self::webConfig();
+    return [
+        'id' => $web['id'],
+        'basePath' => $web['basePath'],
+        'vendorPath' => $web['vendorPath'],
+        'bootstrap' => ['log'],
+        'controllerNamespace' => 'app\commands',
+        'components' => [
+            'db' => $web['components']['db'],
+            'log' => [
+                'targets' => [
+                    [
+                        'class' => 'codemix\streamlog\Target',
+                        'url' => 'php://stdout',
+                        'levels' => ['info','trace'],
+                        'categories' => ['app\\*'],
+                        'logVars' => [],
+                    ],
+                    [
+                        'class' => 'codemix\streamlog\Target',
+                        'url' => 'php://stderr',
+                        'levels' => ['error', 'warning'],
+                        'logVars' => [],
+                    ],
                 ],
             ],
         ],
-        'db' => $db,
-    ],
-    'params' => $params,
-    /*
-    'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
-        ],
-    ],
-    */
-];
-
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
+        'params' => $web['params'],
     ];
-}
-
-return $config;

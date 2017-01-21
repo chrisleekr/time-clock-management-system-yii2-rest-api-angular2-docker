@@ -34,7 +34,7 @@ class m170105_234721_create_timesheet_table extends Migration
 
         // create foreign key for table
         $this->addForeignKey(
-            'fk-timsheet',
+            'fk-timesheet',
             'timesheet', 'staff_id',
             'staff', 'id'
         );
@@ -47,10 +47,14 @@ class m170105_234721_create_timesheet_table extends Migration
      */
     public function down()
     {
+        $this->execute("SET foreign_key_checks = 0;");
+
         $this->dropForeignKey('fk-timesheet', 'timesheet');
 
         $this->dropIndex('idx-timesheet', 'timesheet');
 
         $this->dropTable('timesheet');
+        $this->execute("SET foreign_key_checks = 1;");
+
     }
 }

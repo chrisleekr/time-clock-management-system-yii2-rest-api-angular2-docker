@@ -8,7 +8,8 @@ export class GlobalService{
     public apiHost:string;
 
     public timezone:string = 'Australia/Melbourne';
-    public rounding_times:number = 5;
+    public rounding_times:number = 15;
+    public rounding_mode:number = 2; // 1 for rounding off, 2 for rounding down
     public week_start_on:string = 'Tuesday';
 
     constructor(){
@@ -25,6 +26,10 @@ export class GlobalService{
         }
         if(localStorage.getItem('rounding_times') != null){
             this.rounding_times = +localStorage.getItem('rounding_times');
+        }
+
+        if(localStorage.getItem('rounding_mode') != null){
+            this.rounding_mode = +localStorage.getItem('rounding_mode');
         }
         if(localStorage.getItem('week_start_on') != null){
             this.week_start_on = localStorage.getItem('week_start_on');

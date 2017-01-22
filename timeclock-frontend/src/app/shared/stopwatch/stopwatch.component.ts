@@ -1,4 +1,5 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import {CommonModule}       from '@angular/common';
 import * as moment from 'moment';
 
 @Component({
@@ -36,12 +37,22 @@ export class StopwatchComponent implements OnInit, OnDestroy{
     }
 
     formatTime(timeMs: number) {
+
         let hours:string,
             minutes: string,
             seconds: string,
             mSeconds: string;
 
-        hours = Math.floor(timeMs / (60 * 60 * 1000)).toString();
+        let sign:string = '';
+
+        if(timeMs > 0) {
+            hours = Math.floor(timeMs / (60 * 60 * 1000)).toString();
+        } else {
+            timeMs = timeMs * -1;
+            hours = '0';
+            sign = '-';
+        }
+
         timeMs = timeMs % (60 * 60 * 1000);
         minutes = Math.floor(timeMs / (60 * 1000)).toString();
         timeMs = timeMs % (60 * 1000);
@@ -49,16 +60,23 @@ export class StopwatchComponent implements OnInit, OnDestroy{
         mSeconds = (timeMs % 1000) + '';
         if(+mSeconds < 10){ mSeconds = '00'+mSeconds; }
         else if(+mSeconds < 100){ mSeconds = '0'+mSeconds; }
-        return (+hours < 10 ? '0' : '') + hours + ':' + (+minutes < 10 ? '0' : '') + minutes + ':' + (+seconds < 10 ? '0' : '') + seconds + '.' + mSeconds;
+
+        return sign+(+hours < 10 ? '0' : '') + hours + ':' + (+minutes < 10 ? '0' : '') + minutes + ':' + (+seconds < 10 ? '0' : '') + seconds + '.' + mSeconds;
+
     }
 
     getUpdate() {
         let self = this;
 
+        let now = moment();
         return () => {
-
-            self.time = this.lapTime
-                + (this.startAt ? this.now() - this.startAt : 0);
+            if(self.time < 0) {
+                self.time = this.lapTime
+                    - (this.startAt ? this.startAt - this.now() : 0);
+            } else {
+                self.time = this.lapTime
+                    + (this.startAt ? this.now() - this.startAt : 0);
+            }
         };
     }
 

@@ -19,3 +19,12 @@
 .stopwatch-container .stopwatch-time{
 
 }
+
+.stopwatch-time-minus{
+    color: #e4451c;
+}
+
+
+.stopwatch-time-plus{
+    color: #19528f;
+}

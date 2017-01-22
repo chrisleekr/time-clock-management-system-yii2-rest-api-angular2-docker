@@ -37,13 +37,20 @@ class m170103_232448_create_setting_table extends Migration
         $this->insert('setting', [
             'id'            =>  2,
             'meta_key'      =>  'rounding_times',
-            'meta_value'    =>  '5',
+            'meta_value'    =>  '15',
         ]);
 
         $this->insert('setting', [
             'id'            =>  3,
             'meta_key'      =>  'week_start_on',
             'meta_value'    =>  'Tuesday',
+        ]);
+
+
+        $this->insert('setting', [
+            'id'            =>  4,
+            'meta_key'      =>  'rounding_mode',
+            'meta_value'    =>  '1',
         ]);
     }
 

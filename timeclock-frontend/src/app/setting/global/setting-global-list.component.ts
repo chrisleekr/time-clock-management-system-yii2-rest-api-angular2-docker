@@ -43,49 +43,5 @@ export class SettingGlobalListComponent implements OnInit{
         this._router.navigate(['/setting', 'global', setting.id]);
     }
 
-    // public confirmDeleteSetting(setting:Setting):void {
-    //     // Due to sweet alert scope issue, define as function variable and pass to swal
-    //
-    //     let parent = this;
-    //     // let getSettings = this.getSettings;
-    //     this._errorMessage = '';
-    //
-    //     swal({
-    //         title: 'Are you sure?',
-    //         text: "Once delete, you won't be able to revert this!",
-    //         type: 'question',
-    //         showLoaderOnConfirm: true,
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Yes, delete it!',
-    //         preConfirm: function () {
-    //             return new Promise(function (resolve, reject) {
-    //                 parent._settingDataService.deleteSettingById(setting.id)
-    //                     .subscribe(
-    //                         result => {
-    //                             parent.getSettings();
-    //                             resolve();
-    //                         },
-    //                         error =>  {
-    //                             // unauthorized access
-    //                             if(error.status == 401) {
-    //                                 parent._userService.unauthorizedAccess(error);
-    //                             } else {
-    //                                 parent._errorMessage = error.data.message;
-    //                             }
-    //                             resolve();
-    //
-    //                         }
-    //                     );
-    //             })
-    //         }
-    //     }).then(function(result) {
-    //         // handle confirm, result is needed for modals with input
-    //
-    //     }, function(dismiss) {
-    //         // dismiss can be "cancel" | "close" | "outside"
-    //     });
-    // }
 }
 

@@ -87,7 +87,6 @@ export class TimeClockComponent implements OnInit, AfterViewChecked, AfterViewIn
 
     public onClockToggle(mode:string, i:number, staffTimesheet:StaffTimesheet){
 
-
         if(mode == 'in') {
             this._clockIn(staffTimesheet);
 
@@ -99,17 +98,42 @@ export class TimeClockComponent implements OnInit, AfterViewChecked, AfterViewIn
             let startTime = moment(staffTimesheet.current_timesheet.start_time);
             let diffMinutes = now.diff(startTime, 'minutes');
 
-            if(diffMinutes <= 30) {
-                let self = this;
+            let self = this;
+
+            if(diffMinutes <= 0) {
+                // If the work has not commenced yet, then warning
                 swal({
-                    title: 'Are you sure?',
-                    text: "Looks like you clocked in less than 30 minutes!",
+                    title: 'Cancel clock in',
+                    html: "You have not commenced the work.<br />Do you want to cancel clocking in?",
                     type: 'question',
                     showLoaderOnConfirm: true,
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, clock out!',
+                    confirmButtonText: 'Yes, cancel clock in',
+                    preConfirm: function () {
+                        return new Promise(function (resolve, reject) {
+                            self._cancelClock(staffTimesheet);
+                            resolve();
+                        })
+                    }
+                }).then(function(result) {
+                    // handle confirm, result is needed for modals with input
+
+                }, function(dismiss) {
+                    // dismiss can be "cancel" | "close" | "outside"
+                });
+            } else if(diffMinutes <= 30) {
+
+                swal({
+                    title: 'Clock out',
+                    html: "Looks like you clocked in less than 30 minutes!<br />Do you still want to clock out?",
+                    type: 'question',
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, clock out',
                     preConfirm: function () {
                         return new Promise(function (resolve, reject) {
                             self._clockOut(staffTimesheet);
@@ -123,6 +147,7 @@ export class TimeClockComponent implements OnInit, AfterViewChecked, AfterViewIn
                     // dismiss can be "cancel" | "close" | "outside"
                 });
             } else {
+                // All good, please clock out
                 this._clockOut(staffTimesheet);
             }
 
@@ -132,13 +157,7 @@ export class TimeClockComponent implements OnInit, AfterViewChecked, AfterViewIn
     }
 
     private _clockIn(staffTimesheet:StaffTimesheet) {
-
-        let now, remainder;
-
-        now = moment();
-        remainder = now.minute() % this._globalService.rounding_times;
-        now = moment(now).subtract(remainder, "minutes");
-        now = moment(now).second(0);
+        let now = this._timesheetDataService.calculateTimesheet('start', '');
 
         staffTimesheet.is_clocked_in = 1;
         staffTimesheet.current_timesheet = new Timesheet();
@@ -177,11 +196,7 @@ export class TimeClockComponent implements OnInit, AfterViewChecked, AfterViewIn
     }
 
     private _clockOut(staffTimesheet:StaffTimesheet){
-        let now, remainder;
-        now = moment();
-        remainder = this._globalService.rounding_times - now.minute() % this._globalService.rounding_times;
-        now = moment(now).add(remainder, "minutes");
-        now = moment(now).second(0);
+        let now = this._timesheetDataService.calculateTimesheet('finish', '');
 
         staffTimesheet.is_clocked_in = 0;
         staffTimesheet.current_timesheet.finish_time = moment(now).format("YYYY-MM-DD HH:mm:ss");
@@ -217,6 +232,33 @@ export class TimeClockComponent implements OnInit, AfterViewChecked, AfterViewIn
                 }
             }
         );
+    }
+
+    private _cancelClock(staffTimesheet:StaffTimesheet) {
+        staffTimesheet.is_clocked_in = 0;
+        staffTimesheet.current_timesheet.finish_time = staffTimesheet.current_timesheet.start_time;
+
+        // delete timesheet
+        this._timesheetDataService.deleteTimesheetById(staffTimesheet.current_timesheet.id).
+        subscribe(
+            result => {
+            },
+            error => {
+                // Validation errors
+                if(error.status == 422) {
+                    // this._setFormErrors(error.data);
+                }
+                // Unauthorized Access
+                else if(error.status == 401) {
+                    this._userService.unauthorizedAccess(error);
+                }
+                // All other errors
+                else {
+                    this._errorMessage = error.data.message;
+                }
+            }
+        );
+
     }
 
     private _updateStaffTimesheet:StaffTimesheet;

@@ -1,3 +1,6 @@
 <div class="stopwatch-container">
-    <span class="stopwatch-time">{{ formatTime(time) }}</span>
+    <span class="stopwatch-time" [ngClass]="{
+        'stopwatch-time-minus': time < 0,
+        'stopwatch-time-plus': time > 0
+    }">{{ formatTime(time) }}</span>
 </div>

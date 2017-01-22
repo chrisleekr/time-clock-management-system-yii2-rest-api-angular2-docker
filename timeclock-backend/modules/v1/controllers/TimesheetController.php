@@ -232,7 +232,13 @@
                 throw new ServerErrorHttpException('Failed to delete the object for unknown reason.');
             }
 
-            $activityMessage = "The timesheet entry '".date("Y-m-d H:i", strtotime($model->start_time))." ~ ".date("Y-m-d H:i", strtotime($model->finish_time))."' for '".$model->staff->firstname.", ".$model->staff->lastname."' is deleted.";
+            if($model->finish_time == null) {
+                $activityMessage = "The staff '".$model->staff->firstname.", ".$model->staff->lastname."' cancelled clocking in at ".date("Y-m-d H:i", strtotime($model->start_time)).".";
+            } else {
+                $activityMessage = "The timesheet entry '".date("Y-m-d H:i", strtotime($model->start_time))." ~ ".date("Y-m-d H:i", strtotime($model->finish_time))."' for '".$model->staff->firstname.", ".$model->staff->lastname."' is deleted.";
+            }
+
+
             $activity = new Activity([
                 'activity_type'     =>  'timesheet_delete',
                 'activity_message'  =>  $activityMessage,

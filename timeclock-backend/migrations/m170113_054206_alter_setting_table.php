@@ -22,7 +22,7 @@ class m170113_054206_alter_setting_table extends Migration
         $this->update('setting', [
             'meta_name' =>  'Rounding of Times (minutes)',
             'meta_type' =>  'number',
-            'meta_desc' =>  'Set rounding minutes. Assuming Rounding of Time (minutes) set as 5, if staff is clocked in 09:04, then clocked in time will be calculated as 09:00. If staff is clocked out 16:02, then clocked out time will be calculated as 16:05.',
+            'meta_desc' =>  'Set rounding minutes. \n\nAssumming Rounding of Time (minutes) set as 5, if staff is clocked in 09:04, then clocked in time will be calculated as 09:00. \n\nIf staff is clocked out 16:02, then clocked out time will be calculated as 16:05.',
             'meta_attribute'    =>  '{"max":55,"min":5}',
         ], "meta_key = 'rounding_times'");
 
@@ -37,8 +37,8 @@ class m170113_054206_alter_setting_table extends Migration
         $this->update('setting', [
             'meta_name' =>  'Rounding Mode',
             'meta_type' =>  'select',
-            'meta_desc' =>  'Set rounding mode. If set "Rounding Off", then clock in/off time will be rounding off to next rounding time. If set "Rounding Down", then clock in/off time will round down to previous rounding time. For example, if rounding mode is "Rounding Off" and rounding time is "15" and staff clocks in 14:17, then the time sheet will start in 14:30. Another example is, if staff clocks out 18:50, then the time sheet will finish at 19:00.',
-            'meta_attribute'    =>  '{"list":[{"value":"1","label":"Rounding Off"},{"value":"2","label":"Rounding Down"}]}',
+            'meta_desc' =>  'Set rounding mode. \n\nIf set \"Rounding Off\", then clock in/off time will be rounding off to next rounding time. \nIf set \"Rounding Down\", then clock in/off time will round down to previous rounding time. \nIf set \"Median Rounding Off/Down\", then clock in/off time will be rounding off if the time is less than middle of next rounding time or if the time is more than middle of next rounding time.\n\nFor example, if rounding mode is \"Rounding Off\" and rounding time is \"15\" and staff clocks in 14:17, then the time sheet will start in 14:30. On the other hand, if staff clocks out 18:50, then the time sheet will finish at 19:00.\n\nAnother example, if rounding mode is \"Median Rounding Off/Down\" and rounding time is \"15\" and staff clocks in 14:17, then time sheet will start in 14:15. If staff clocks out 18:53, then the time sheet will finish at 19:00.',
+            'meta_attribute'    =>  '{"list":[{"value":"1","label":"Rounding Off"},{"value":"2","label":"Rounding Down"},{"value":"3","label":"Median Rounding Off/Down"}]}',
         ], "meta_key = 'rounding_mode'");
     }
 

@@ -28,7 +28,7 @@
                             <tr *ngFor="let setting of _settings">
                                 <td>
                                     {{setting.meta_name}}<br />
-                                    <small class="small-help-text">{{setting.meta_desc}}</small>
+                                    <small class="small-help-text" [innerHtml]="setting.meta_desc | nl2br"></small>
                                 </td>
                                 <td class="text-xs-center">
                                     {{setting.meta_value}}

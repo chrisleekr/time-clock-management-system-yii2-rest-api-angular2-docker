@@ -12,6 +12,7 @@ import {ClockComponent} from './clock/clock.component';
 import {StopwatchComponent} from './stopwatch/stopwatch.component';
 import {TimepickerComponent} from './timepicker/timepicker.component';
 import {LimitToPipe} from './limit-to.pipe';
+import {Nl2BrPipe} from './nl2br.pipe';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {LimitToPipe} from './limit-to.pipe';
         TimepickerComponent,
         StopwatchComponent,
         LimitToPipe,
+        Nl2BrPipe,
     ],
     exports:      [
         FormsModule,
@@ -41,6 +43,7 @@ import {LimitToPipe} from './limit-to.pipe';
         MyDateRangePickerModule,
         MomentModule,
         ColorPickerModule,
+        Nl2BrPipe,
     ],
     providers:    [
 

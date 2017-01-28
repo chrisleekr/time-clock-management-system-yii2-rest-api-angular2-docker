@@ -33,8 +33,8 @@
                         <div class="form-group-wrapper">
                             <div class="form-group row">
                                 <label class="col-sm-12">Description</label>
-                                <div class="col-sm-8">
-                                    {{_setting.meta_desc}}
+                                <div class="col-sm-8" [innerHtml]="_setting.meta_desc | nl2br">
+
                                 </div>
                             </div>
                         </div>

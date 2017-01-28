@@ -150,7 +150,7 @@ export class TimesheetDataService {
 
     /**
      * Calculate start/finish date time based on configuration
-     *      - rounding_mode: 1 for rounding down, 2 for rounding off
+     *      - rounding_mode: 1 for rounding down, 2 for rounding off, 3 for median rounding down/off
      *      - rounding_times: 15
      *
      * @param mode for calculating start or finish date/time
@@ -186,6 +186,51 @@ export class TimesheetDataService {
             remainder = time.minute() % roundingTimes;
             time = moment(time).subtract(remainder, 'minutes');
 
+        } else if(roundingMode == 3) {
+            if((time.minute() % roundingTimes) == 0){
+
+            } else {
+                let halfRoundingTimes = Math.ceil(roundingTimes / 2);      // 8
+                // example 1
+                //      minute: 9
+                //      startRemainder: 0
+                //      finishRemainder: 15
+                //
+                //      startPeriodMinutes: 9 - 8 = 1
+                //      finishPeriodMinutes: 9 + 8 = 17
+                //
+                //      1 <= 0 false
+                //      17 >= 15 true
+                //      final minute = 15
+
+                let startTime = time.clone();
+                let finishTime = time.clone();
+
+                let startRemainder = time.minute() % roundingTimes;
+                startTime = moment(startTime).subtract(startRemainder, 'minutes');
+                let finishRemainder = roundingTimes - (time.minute() % roundingTimes);
+                finishTime = moment(finishTime).add(finishRemainder, 'minutes');
+
+                let startPeriodMinutes = time.minute() - halfRoundingTimes;
+                let finishPeriodMinutes = time.minute() + halfRoundingTimes;
+
+                // console.log(" --- halfRoundingTimes => ", halfRoundingTimes);
+                // console.log(" --- startTime => ", startTime.minute());
+                // console.log(" --- finishTime => ", finishTime.minute());
+                // console.log(" --- startPeriodMinutes => ", startPeriodMinutes);
+                // console.log(" --- finishPeriodMinutes => ", finishPeriodMinutes);
+
+                if(startPeriodMinutes == startTime.minute() && finishPeriodMinutes <= finishTime.minute()) {
+                    // use rounding off
+                    time = finishTime;
+                } else if(startPeriodMinutes <= startTime.minute()) {
+                    // use rounding down
+                    time = startTime;
+                } else if(finishPeriodMinutes >= finishTime.minute()) {
+                    // use rounding off
+                    time = finishTime;
+                }
+            }
         }
 
         time = moment(time).second(0);

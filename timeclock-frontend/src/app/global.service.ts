@@ -9,7 +9,7 @@ export class GlobalService{
 
     public timezone:string = 'Australia/Melbourne';
     public rounding_times:number = 15;
-    public rounding_mode:number = 2; // 1 for rounding off, 2 for rounding down
+    public rounding_mode:number = 3; // 1 for rounding off, 2 for rounding down, 3 for median rounding off/down
 
     public week_start_on:string = 'Tuesday';
 

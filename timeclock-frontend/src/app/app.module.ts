@@ -13,9 +13,9 @@ import {TabsModule} from 'ng2-bootstrap/tabs';
 
 import {BreadcrumbsComponent} from './shared/breadcrumb.component';
 import {SmartResizeDirective} from './shared/smart-resize.directive';
-import { SIDEBAR_TOGGLE_DIRECTIVES } from './shared/sidebar.directive';
-import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
-import { AsideToggleDirective } from './shared/aside.directive';
+import {SIDEBAR_TOGGLE_DIRECTIVES} from './shared/sidebar.directive';
+import {NAV_DROPDOWN_DIRECTIVES} from './shared/nav-dropdown.directive';
+import {AsideToggleDirective} from './shared/aside.directive';
 
 // Routing Module
 import {AppRoutingModule} from './app.routing';
